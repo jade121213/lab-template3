@@ -21,7 +21,7 @@ jobs:
         # Checkout as many commits as needed for the diff
         fetch-depth: 2
     - shell: pwsh
-      id: check_file_changed
+    - id: check_file_changed
       run: |
         # Diff HEAD with the previous commit
         $diff = git diff --name-only HEAD^ HEAD
@@ -31,13 +31,13 @@ jobs:
         $HasDiff = $SourceDiff.Length -gt 0
 
         # Set the output named "docs_changed"
-        Write-Host "docs_changed=$HasDiff" >> $GITHUB_OUTPUT
+        Write-Host "docs_changed=$HasDiff" >> "$GITHUB_OUTPUT"
 
   # Run the job only with "docs_changed" equals "True"
   conditional_update_index_job:
     runs-on: 'ubuntu-20.04'
-    needs: [ conditional_job_check_files ]
-    if: needs.conditional_job_check_files.outputs.docs_changed == 'True'
+    needs: conditional_job_check_files
+    if: ${{ needs.conditional_job_check_files.docs_changed == 'True' }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
