@@ -36,7 +36,7 @@ jobs:
   # Run the job only with "docs_changed" equals "True"
   conditional_update_index_job:
     runs-on: 'ubuntu-20.04'
-    needs: conditional_job_check_files
+    needs: [ conditional_job_check_files ]
     if: ${{ needs.conditional_job_check_files.docs_changed == 'True' }}
     steps:
     - name: Checkout repository
