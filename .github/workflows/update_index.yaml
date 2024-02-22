@@ -38,7 +38,7 @@ jobs:
   # Run the job only with "docs_changed" equals "True"
   conditional_update_index_job:
     needs: conditional_job_check_files
-    #if: ${{ needs.conditional_job_check_files.outputs.docs_changed == 'True' }}
+    if: ${{ needs.conditional_job_check_files.outputs.docs_cond == 'True' }}
     runs-on: 'ubuntu-20.04'
 
     steps:
@@ -47,7 +47,7 @@ jobs:
 
     - name: Extract Markdown links and update index.md
       run: |
-        if [ ${{ needs.conditional_job_check_files.outputs.docs_changed }} == True ] ; then
+        if [ ${{ needs.conditional_job_check_files.outputs.docs_cond }} == True ] ; then
           find ./docs -type f -name "*.md" > links.txt
           awk -F/ '{gsub(/\.md$/, ""); gsub(/ /, "\\ "); printf "[%s](%s)\n", $NF, $0}' links.txt > tmp && mv tmp links.txt
           awk 'BEGIN{p=1} /^## Notes/{print "## Notes"; while(getline < "links.txt") {print; print "\n"}; p=0} p' index.md > temp_index.md && mv temp_index.md index.md
@@ -55,7 +55,7 @@ jobs:
         fi
 
     - name: commit
-      if: ${{ needs.conditional_job_check_files.outputs.docs_changed == 'True' }}
+      if: ${{ needs.conditional_job_check_files.outputs.docs_cond == 'True' }}
       run: |
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config user.name "github-actions[bot]"
@@ -63,7 +63,7 @@ jobs:
           
    
     - name: Push changes
-      if: ${{ needs.conditional_job_check_files.outputs.docs_changed == 'True' }}
+      if: ${{ needs.conditional_job_check_files.outputs.docs_cond == 'True' }}
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
