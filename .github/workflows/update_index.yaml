@@ -26,7 +26,7 @@ jobs:
       shell: pwsh
       run: |
         # Diff HEAD with the previous commit
-        $diff = git diff --name-only --diff-filter=ADM HEAD^ HEAD
+        $diff = git diff --name-only --diff-filter=AD HEAD^ HEAD
 
         # Check if a markdown file and only a markdown file in the docs/ directory has been added or deleted
         $SourceDiff = $diff | Where-Object { ($_ -match '^A' -or $_ -match '^D') -and $_ -match '^docs/' }
