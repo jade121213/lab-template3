@@ -25,7 +25,7 @@ jobs:
       name: Check the docs directory for new markdown documents
       shell: pwsh
       run: |
-        # Diff HEAD with the previous commit
+        # Diff HEAD with the previous commit and filter by only added or deleted files
         $diff = git diff --name-only --diff-filter=AD HEAD^ HEAD
 
         # Check if a markdown file and only a markdown file in the docs/ directory has been added or deleted
