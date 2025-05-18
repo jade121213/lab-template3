@@ -5,7 +5,6 @@ relative_links:
   collections: true
 include:
   - README.md
-footer: false
 
 theme: jekyll-theme-cayman
-description: [A simply and easy lab notebook website]
+description: []
